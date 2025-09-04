@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd archon-ui-main && npm run build",
+  "buildCommand": "cd archon-ui-main && npm install && npm run build",
   "outputDirectory": "archon-ui-main/dist",
-  "installCommand": "cd archon-ui-main && npm install",
+  "installCommand": "cd archon-ui-main && npm install --include=dev",
   "rewrites": [
     {
       "source": "/(.*)",
