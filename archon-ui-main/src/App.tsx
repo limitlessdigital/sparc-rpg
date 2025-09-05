@@ -1,4 +1,36 @@
+import { useState, useEffect } from 'react';
+import CharacterCreation from './components/CharacterCreation';
+import DiceRoller from './components/DiceRoller';
+import AISeer from './components/AISeer';
+import { api } from './services/api';
+
+type ActiveModal = 'character' | 'dice' | 'seer' | null;
+
 export default function App() {
+  const [activeModal, setActiveModal] = useState<ActiveModal>(null);
+  const [backendStatus, setBackendStatus] = useState<'unknown' | 'connected' | 'disconnected'>('unknown');
+
+  useEffect(() => {
+    checkBackendStatus();
+  }, []);
+
+  const checkBackendStatus = async () => {
+    try {
+      await api.healthCheck();
+      setBackendStatus('connected');
+    } catch (error) {
+      setBackendStatus('disconnected');
+    }
+  };
+
+  const openModal = (modal: ActiveModal) => {
+    setActiveModal(modal);
+  };
+
+  const closeModal = () => {
+    setActiveModal(null);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">
       <div className="container mx-auto px-4 py-16">
@@ -18,7 +50,10 @@ export default function App() {
             <p className="text-slate-300 mb-6">
               Create your hero in under 5 minutes with our streamlined wizard
             </p>
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold">
+            <button 
+              onClick={() => openModal('character')}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold"
+            >
               Create Character
             </button>
           </div>
@@ -29,7 +64,10 @@ export default function App() {
             <p className="text-slate-300 mb-6">
               Roll dice with realistic physics and sub-100ms performance
             </p>
-            <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold">
+            <button 
+              onClick={() => openModal('dice')}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold"
+            >
               Roll Dice
             </button>
           </div>
@@ -40,7 +78,10 @@ export default function App() {
             <p className="text-slate-300 mb-6">
               Get instant help from your AI Game Master assistant
             </p>
-            <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold">
+            <button 
+              onClick={() => openModal('seer')}
+              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold"
+            >
               Ask Seer
             </button>
           </div>
@@ -48,7 +89,7 @@ export default function App() {
 
         <div className="mt-16 text-center">
           <div className="bg-slate-800/30 backdrop-blur rounded-lg p-6 max-w-2xl mx-auto border border-slate-700">
-            <h3 className="text-xl font-semibold mb-4">🚀 Deployment Status</h3>
+            <h3 className="text-xl font-semibold mb-4">🚀 System Status</h3>
             <div className="space-y-2 text-left">
               <div className="flex items-center justify-between">
                 <span>Frontend Build</span>
@@ -59,13 +100,25 @@ export default function App() {
                 <span className="text-green-400">✅ Clean</span>
               </div>
               <div className="flex items-center justify-between">
-                <span>Vercel Compatible</span>
-                <span className="text-green-400">✅ Optimized</span>
+                <span>Backend Connection</span>
+                <span className={backendStatus === 'connected' ? 'text-green-400' : backendStatus === 'disconnected' ? 'text-red-400' : 'text-yellow-400'}>
+                  {backendStatus === 'connected' ? '✅ Connected' : backendStatus === 'disconnected' ? '❌ Offline' : '⏳ Checking...'}
+                </span>
               </div>
             </div>
+            {backendStatus === 'disconnected' && (
+              <p className="text-xs text-red-400 mt-4">
+                Backend not available. Run: <code>cd python && uv run python -m src.server.main</code>
+              </p>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      {activeModal === 'character' && <CharacterCreation onClose={closeModal} />}
+      {activeModal === 'dice' && <DiceRoller onClose={closeModal} />}
+      {activeModal === 'seer' && <AISeer onClose={closeModal} />}
     </div>
   )
 }
