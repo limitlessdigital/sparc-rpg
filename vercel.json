@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd archon-ui-main && npm ci && npx vite build",
+  "buildCommand": "cd archon-ui-main && npm ci && npm run build",
   "outputDirectory": "archon-ui-main/dist",
   "installCommand": "cd archon-ui-main && npm ci",
   "rewrites": [
