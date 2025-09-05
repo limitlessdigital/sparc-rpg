@@ -3,13 +3,17 @@
   "outputDirectory": "archon-ui-main/dist",
   "installCommand": "cd archon-ui-main && npm ci",
   "functions": {
-    "api/index.py": {
+    "api/*.py": {
       "runtime": "python3.9"
     }
   },
   "rewrites": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/health",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/api/sparc/(.*)",
       "destination": "/api/index.py"
     },
     {

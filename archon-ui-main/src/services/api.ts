@@ -4,6 +4,8 @@ const API_BASE = import.meta.env.PROD ? '/api/sparc' : 'http://localhost:8181/ap
 export class SparcApi {
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
     const url = `${API_BASE}${endpoint}`;
+    console.log('API Request:', url);
+    
     const response = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
@@ -12,11 +14,17 @@ export class SparcApi {
       ...options,
     });
 
+    console.log('API Response status:', response.status);
+    
     if (!response.ok) {
-      throw new Error(`API error: ${response.statusText}`);
+      const errorText = await response.text();
+      console.error('API Error response:', errorText);
+      throw new Error(`API error: ${response.statusText} - ${errorText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+    console.log('API Response data:', data);
+    return data;
   }
 
   // Character Creation

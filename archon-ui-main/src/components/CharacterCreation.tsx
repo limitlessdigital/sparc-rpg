@@ -14,10 +14,13 @@ export default function CharacterCreation({ onClose }: { onClose: () => void }) 
 
   const loadTemplates = async () => {
     try {
+      console.log('Loading character templates...');
       const data = await api.getCharacterTemplates();
+      console.log('Templates loaded:', data);
       setTemplates(data);
     } catch (error) {
       console.error('Failed to load templates:', error);
+      console.error('Error details:', error);
     }
   };
 
