@@ -47,8 +47,9 @@ export class SparcApi {
     
     if (endpoint === '/dice/roll') {
       const body = JSON.parse(options.body as string);
+      // Force d6 only for SPARC RPG
       const rolls = Array.from({length: body.dice_count}, () => 
-        Math.floor(Math.random() * body.dice_sides) + 1
+        Math.floor(Math.random() * 6) + 1
       );
       const baseTotal = rolls.reduce((a, b) => a + b, 0);
       return {
@@ -56,6 +57,7 @@ export class SparcApi {
         base_total: baseTotal,
         modifier: body.modifier || 0,
         total: baseTotal + (body.modifier || 0),
+        dice_notation: `${body.dice_count}d6${body.modifier ? (body.modifier >= 0 ? '+' + body.modifier : body.modifier) : ''}`,
         timestamp: Date.now()
       } as T;
     }

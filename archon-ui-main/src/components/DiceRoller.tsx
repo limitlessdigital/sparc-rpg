@@ -2,13 +2,12 @@ import { useState } from 'react';
 import { api } from '../services/api';
 
 export default function DiceRoller({ onClose }: { onClose: () => void }) {
-  const [diceCount, setDiceCount] = useState(1);
-  const [diceSides, setDiceSides] = useState(20);
+  const [diceCount, setDiceCount] = useState(2);
   const [modifier, setModifier] = useState(0);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
 
-  const diceOptions = [4, 6, 8, 10, 12, 20];
+  const diceSides = 6; // Fixed to d6 only
 
   const rollDice = async () => {
     setLoading(true);
@@ -109,21 +108,10 @@ export default function DiceRoller({ onClose }: { onClose: () => void }) {
 
             <div>
               <label className="block text-sm font-semibold mb-2">Dice Type</label>
-              <div className="grid grid-cols-3 gap-2">
-                {diceOptions.map((sides) => (
-                  <button
-                    key={sides}
-                    onClick={() => setDiceSides(sides)}
-                    className={`py-3 rounded-lg font-semibold transition-colors ${
-                      diceSides === sides
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
-                    }`}
-                  >
-                    d{sides}
-                  </button>
-                ))}
+              <div className="bg-blue-600 text-white py-3 rounded-lg font-semibold text-center">
+                d6 Only
               </div>
+              <p className="text-xs text-slate-400 mt-2">SPARC RPG uses six-sided dice exclusively</p>
             </div>
 
             <div>
@@ -144,7 +132,7 @@ export default function DiceRoller({ onClose }: { onClose: () => void }) {
               disabled={loading}
               className="w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white py-3 rounded-lg font-semibold text-lg"
             >
-              {loading ? 'Rolling...' : `Roll ${diceCount}d${diceSides}${modifier >= 0 ? '+' : ''}${modifier !== 0 ? modifier : ''}`}
+              {loading ? 'Rolling...' : `Roll ${diceCount}d6${modifier >= 0 ? '+' : ''}${modifier !== 0 ? modifier : ''}`}
             </button>
           </div>
         )}

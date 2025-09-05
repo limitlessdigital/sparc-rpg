@@ -62,7 +62,7 @@ export default function App() {
             <div className="text-4xl mb-4">🎲</div>
             <h2 className="text-2xl font-bold mb-4">Dice Rolling</h2>
             <p className="text-slate-300 mb-6">
-              Roll dice with realistic physics and sub-100ms performance
+              Roll six-sided dice with realistic physics and sub-100ms performance
             </p>
             <button 
               onClick={() => openModal('dice')}
