@@ -49,7 +49,7 @@ export class SparcApi {
 
   // Health Check
   async healthCheck() {
-    const response = await fetch(import.meta.env.PROD ? '/health' : 'http://localhost:8181/health');
+    const response = await fetch(import.meta.env.PROD ? '/api/health' : 'http://localhost:8181/health');
     return response.json();
   }
 }

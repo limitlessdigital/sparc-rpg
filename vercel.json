@@ -2,7 +2,16 @@
   "buildCommand": "cd archon-ui-main && npm ci && npm run build",
   "outputDirectory": "archon-ui-main/dist",
   "installCommand": "cd archon-ui-main && npm ci",
+  "functions": {
+    "api/index.py": {
+      "runtime": "python3.9"
+    }
+  },
   "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.py"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
