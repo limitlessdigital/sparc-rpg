@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import CharacterCreation from './components/CharacterCreation';
 import DiceRoller from './components/DiceRoller';
 import AISeer from './components/AISeer';
+import { AdventureForge } from './components/AdventureForge';
 import { api } from './services/api';
 
-type ActiveModal = 'character' | 'dice' | 'seer' | null;
+type ActiveModal = 'character' | 'dice' | 'seer' | 'forge' | null;
 
 export default function App() {
   const [activeModal, setActiveModal] = useState<ActiveModal>(null);
@@ -43,7 +44,7 @@ export default function App() {
           </p>
         </header>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           <div className="bg-slate-800/50 backdrop-blur rounded-xl p-8 border border-slate-700 hover:border-slate-600 transition-colors">
             <div className="text-4xl mb-4">⚔️</div>
             <h2 className="text-2xl font-bold mb-4">Character Creation</h2>
@@ -85,6 +86,20 @@ export default function App() {
               Ask Seer
             </button>
           </div>
+
+          <div className="bg-slate-800/50 backdrop-blur rounded-xl p-8 border border-slate-700 hover:border-slate-600 transition-colors">
+            <div className="text-4xl mb-4">🛠️</div>
+            <h2 className="text-2xl font-bold mb-4">Adventure Forge</h2>
+            <p className="text-slate-300 mb-6">
+              Create branching adventures with our visual node-based editor
+            </p>
+            <button 
+              onClick={() => openModal('forge')}
+              className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-6 rounded-lg transition-colors font-semibold"
+            >
+              Open Forge
+            </button>
+          </div>
         </div>
 
         <div className="mt-16 text-center">
@@ -119,6 +134,22 @@ export default function App() {
       {activeModal === 'character' && <CharacterCreation onClose={closeModal} />}
       {activeModal === 'dice' && <DiceRoller onClose={closeModal} />}
       {activeModal === 'seer' && <AISeer onClose={closeModal} />}
+      {activeModal === 'forge' && (
+        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex flex-col">
+          <div className="flex-1">
+            <AdventureForge 
+              adventureId="test-adventure"
+              className="w-full h-full"
+            />
+          </div>
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg z-10"
+          >
+            Close Forge
+          </button>
+        </div>
+      )}
     </div>
   )
 }
