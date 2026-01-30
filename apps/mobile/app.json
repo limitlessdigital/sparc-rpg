@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "SPARC RPG",
+    "slug": "sparc-rpg",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "sparc",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a1a2e"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sparcrpg.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "SPARC RPG needs camera access to take character photos",
+        "NSPhotoLibraryUsageDescription": "SPARC RPG needs photo library access to select character images"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a1a2e"
+      },
+      "package": "com.sparcrpg.app",
+      "permissions": ["CAMERA", "VIBRATE", "RECEIVE_BOOT_COMPLETED"]
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#8b5cf6"
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow SPARC RPG to access your camera for character photos"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow SPARC RPG to access your photos for character images"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPARC RPG - Project Status</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --orange: #CC7A00;
+            --bronze: #8B4513;
+            --gold: #FFB347;
+            --green: #4CAF50;
+            --yellow: #FF9800;
+            --red: #F44336;
+            --blue: #2196F3;
+            --purple: #9C27B0;
+            --dark: #121212;
+            --card: #1e1e1e;
+            --card-hover: #2a2a2a;
+            --text: #ffffff;
+            --muted: #888888;
+            --border: #333333;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--bronze), var(--orange));
+            padding: 24px 32px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 { font-size: 28px; font-weight: 700; }
+        .header-meta { font-size: 14px; opacity: 0.9; }
+        
+        /* Main Layout */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        /* Phase Progress */
+        .phases {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .phase-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+        
+        .phase-card.active { border-color: var(--orange); }
+        
+        .phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .phase-name { font-weight: 600; font-size: 16px; }
+        .phase-percent { font-size: 24px; font-weight: 700; color: var(--orange); }
+        .phase-weeks { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+        
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--gold));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Section */
+        .section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Milestones */
+        .milestones {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+        
+        .milestone {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .milestone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .milestone-name { font-weight: 600; }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-complete { background: rgba(76,175,80,0.2); color: var(--green); }
+        .status-progress { background: rgba(255,152,0,0.2); color: var(--yellow); }
+        .status-blocked { background: rgba(244,67,54,0.2); color: var(--red); }
+        .status-pending { background: rgba(136,136,136,0.2); color: var(--muted); }
+        
+        .component-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .component {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            padding: 4px 0;
+        }
+        
+        .component-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            flex-shrink: 0;
+        }
+        
+        .component-icon.complete { background: var(--green); }
+        .component-icon.progress { background: var(--yellow); }
+        .component-icon.pending { background: var(--border); }
+        
+        /* PRDs Grid */
+        .prds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .prd-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .prd-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-2px);
+        }
+        
+        .prd-number {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        
+        .prd-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .prd-status {
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .prd-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .prd-dot.implemented { background: var(--green); }
+        .prd-dot.ready { background: var(--blue); }
+        .prd-dot.progress { background: var(--yellow); }
+        .prd-dot.pending { background: var(--muted); }
+        
+        /* Dependency Flow */
+        .dep-flow {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        
+        .dep-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-width: 900px;
+        }
+        
+        .dep-layer {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .dep-node {
+            background: var(--card-hover);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .dep-node.implemented { border-color: var(--green); color: var(--green); }
+        .dep-node.ready { border-color: var(--blue); color: var(--blue); }
+        .dep-node.progress { border-color: var(--yellow); color: var(--yellow); }
+        .dep-node.foundation { border-color: var(--purple); color: var(--purple); }
+        
+        .dep-arrow {
+            text-align: center;
+            color: var(--muted);
+            font-size: 20px;
+        }
+        
+        /* Risks & Blockers */
+        .alerts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        
+        .alert-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 14px;
+            border-left: 4px solid var(--red);
+        }
+        
+        .alert-card.risk { border-left-color: var(--yellow); }
+        .alert-card.blocker { border-left-color: var(--red); }
+        
+        .alert-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+        
+        .alert-desc {
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        .alert-meta {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 8px;
+            display: flex;
+            gap: 12px;
+        }
+        
+        /* Metrics */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .metric-card {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .metric-target {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        .metric-value.good { color: var(--green); }
+        .metric-value.warn { color: var(--yellow); }
+        .metric-value.bad { color: var(--red); }
+        .metric-value.neutral { color: var(--muted); }
+        
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            padding: 16px;
+            background: var(--card);
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 13px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        /* Issues Tracker */
+        .issues-summary {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .issue-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 24px;
+            background: var(--card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .issue-count {
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .issue-count.resolved { color: var(--green); }
+        .issue-count.pending { color: var(--yellow); }
+        .issue-count.blocked { color: var(--red); }
+        
+        .issue-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+        
+        .issues-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .issue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--card);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .issue-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .issue-icon {
+            font-size: 16px;
+        }
+        
+        .issue-text {
+            font-size: 14px;
+        }
+        
+        .issue-category {
+            font-size: 11px;
+            color: var(--muted);
+            padding: 2px 8px;
+            background: var(--border);
+            border-radius: 4px;
+        }
+        
+        .issue-status {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .issue-status.resolved { background: rgba(76, 175, 80, 0.2); color: var(--green); }
+        .issue-status.pending { background: rgba(255, 152, 0, 0.2); color: var(--yellow); }
+        .issue-status.blocked { background: rgba(244, 67, 54, 0.2); color: var(--red); }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .phases { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; gap: 8px; text-align: center; }
+            .issues-summary { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <img src="Design Assets/weathered-and-shiny-sparc-logo.png" alt="SPARC" style="height: 60px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                <div>
+                    <h1>SPARC RPG</h1>
+                    <div class="header-meta">Gateway Fantasy RPG Platform</div>
+                </div>
+            </div>
+            <div class="header-meta">
+                Target: Q2 2026 | Last Updated: <span id="updated"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Phase Progress -->
+        <div class="phases">
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-name">Phase 1: Foundation</span>
+                    <span class="phase-percent">80%</span>
+                </div>
+                <div class="phase-weeks">Weeks 1-6</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%"></div>
+                </div>
+            </div>
+            <div class="phase-card active">
+                <div class="phase-header">
+                    <span class="phase-name">Phase 2: Core Game</span>
+                    <span class="phase-percent">35%</span>
+                </div>
+                <div class="phase-weeks">Weeks 7-14</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 35%"></div>
+                </div>
+            </div>
+            <div class="phase-card">
+                <div class="phase-header">
+                    <span class="phase-name">Phase 3: Polish</span>
+                    <span class="phase-percent">5%</span>
+                </div>
+                <div class="phase-weeks">Weeks 15-20</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 5%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background: var(--green)"></div> Implemented</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--blue)"></div> PRD Ready</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--yellow)"></div> In Progress</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--muted)"></div> Not Started</div>
+        </div>
+        
+        <!-- Milestones -->
+        <div class="section">
+            <div class="section-title">📋 Milestones</div>
+            <div class="milestones" id="milestones"></div>
+        </div>
+        
+        <!-- PRDs -->
+        <div class="section">
+            <div class="section-title">📄 Product Requirements (PRDs)</div>
+            <div class="prds-grid" id="prds"></div>
+        </div>
+        
+        <!-- Dependencies -->
+        <div class="section">
+            <div class="section-title">🔗 Dependency Flow</div>
+            <div class="dep-flow">
+                <div class="dep-layers">
+                    <div class="dep-layer">
+                        <div class="dep-node implemented">Authentication (18)</div>
+                        <div class="dep-node implemented">Database Schema (17)</div>
+                    </div>
+                    <div class="dep-arrow">↓</div>
+                    <div class="dep-layer">
+                        <div class="dep-node implemented">Dice System (01)</div>
+                        <div class="dep-node implemented">Character (02)</div>
+                        <div class="dep-node progress">Session (04)</div>
+                        <div class="dep-node implemented">Canvas (08-10)</div>
+                    </div>
+                    <div class="dep-arrow">↓</div>
+                    <div class="dep-layer">
+                        <div class="dep-node ready">Dice UI (07)</div>
+                        <div class="dep-node progress">Combat (03)</div>
+                        <div class="dep-node implemented">Validation (11)</div>
+                    </div>
+                    <div class="dep-arrow">↓</div>
+                    <div class="dep-layer">
+                        <div class="dep-node progress">Seer Dashboard (05)</div>
+                        <div class="dep-node ready">Publishing (12)</div>
+                    </div>
+                    <div class="dep-arrow">↓</div>
+                    <div class="dep-layer">
+                        <div class="dep-node ready">AI Assistant (06)</div>
+                        <div class="dep-node implemented">Character Creation (13)</div>
+                        <div class="dep-node ready">Session Browser (14)</div>
+                    </div>
+                    <div class="dep-arrow">↓</div>
+                    <div class="dep-layer">
+                        <div class="dep-node progress">Onboarding (15)</div>
+                        <div class="dep-node ready">Mobile App (27)</div>
+                        <div class="dep-node ready">Voice & Video (30)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Metrics -->
+        <div class="section">
+            <div class="section-title">📊 Key Metrics</div>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-label">Unit Test Coverage</div>
+                    <div class="metric-value warn">45%</div>
+                    <div class="metric-target">Target: >80%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">E2E Test Coverage</div>
+                    <div class="metric-value warn">25%</div>
+                    <div class="metric-target">Target: >60%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">PRDs Documented</div>
+                    <div class="metric-value good">30/30</div>
+                    <div class="metric-target">100% documented</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">PRDs Implemented</div>
+                    <div class="metric-value warn">9/30</div>
+                    <div class="metric-target">30% built</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Risks & Blockers -->
+        <div class="section">
+            <div class="section-title">⚠️ Risks & Blockers</div>
+            <div class="alerts-grid" id="alerts"></div>
+        </div>
+        
+        <!-- Issues Tracker -->
+        <div class="section">
+            <div class="section-title">🔧 Issues Tracker</div>
+            <div class="issues-summary">
+                <div class="issue-stat">
+                    <span class="issue-count resolved">0</span>
+                    <span class="issue-label">Resolved</span>
+                </div>
+                <div class="issue-stat">
+                    <span class="issue-count pending">0</span>
+                    <span class="issue-label">Pending</span>
+                </div>
+                <div class="issue-stat">
+                    <span class="issue-count blocked">0</span>
+                    <span class="issue-label">Blocked</span>
+                </div>
+            </div>
+            <div class="issues-list" id="issues"></div>
+        </div>
+    </div>
+    
+    <script>
+        // Data
+        const milestones = [
+            {
+                name: "1.1 Infrastructure",
+                status: "complete",
+                components: [
+                    { name: "Supabase setup", status: "complete" },
+                    { name: "FastAPI scaffold", status: "complete" },
+                    { name: "React scaffold", status: "complete" },
+                    { name: "CI/CD pipeline", status: "complete" },
+                    { name: "Dev environment", status: "complete" }
+                ]
+            },
+            {
+                name: "1.2 Authentication",
+                status: "progress",
+                components: [
+                    { name: "User registration", status: "complete" },
+                    { name: "User login", status: "complete" },
+                    { name: "Token refresh", status: "complete" },
+                    { name: "Password reset", status: "progress" },
+                    { name: "Social login", status: "pending" },
+                    { name: "RLS policies", status: "complete" }
+                ]
+            },
+            {
+                name: "1.3 Database Schema",
+                status: "complete",
+                components: [
+                    { name: "Users table", status: "complete" },
+                    { name: "Characters table", status: "complete" },
+                    { name: "Sessions table", status: "complete" },
+                    { name: "Adventures table", status: "complete" },
+                    { name: "Combat state", status: "complete" },
+                    { name: "Creatures table", status: "complete" }
+                ]
+            },
+            {
+                name: "1.4 Adventure Forge",
+                status: "complete",
+                components: [
+                    { name: "Canvas pan/zoom", status: "complete" },
+                    { name: "Node creation", status: "complete" },
+                    { name: "Connections", status: "complete" },
+                    { name: "Property panels", status: "complete" },
+                    { name: "Validation", status: "complete" },
+                    { name: "Save/Load", status: "complete" }
+                ]
+            },
+            {
+                name: "2.1 Character System",
+                status: "complete",
+                components: [
+                    { name: "Creation flow", status: "complete" },
+                    { name: "Class templates", status: "complete" },
+                    { name: "Character sheet", status: "progress" },
+                    { name: "Equipment", status: "complete" }
+                ]
+            },
+            {
+                name: "2.2 Dice System",
+                status: "complete",
+                components: [
+                    { name: "D6 roller", status: "complete" },
+                    { name: "Dice pool calc", status: "complete" },
+                    { name: "Dice animation", status: "pending" },
+                    { name: "Heroic save", status: "complete" }
+                ]
+            },
+            {
+                name: "2.3 Session Mgmt",
+                status: "progress",
+                components: [
+                    { name: "Session creation", status: "progress" },
+                    { name: "Join codes", status: "pending" },
+                    { name: "Lobby", status: "pending" },
+                    { name: "Real-time sync", status: "pending" }
+                ]
+            },
+            {
+                name: "2.4 Combat System",
+                status: "progress",
+                components: [
+                    { name: "Initiative", status: "complete" },
+                    { name: "Turn management", status: "progress" },
+                    { name: "Attack/Defense", status: "complete" },
+                    { name: "Combat UI", status: "pending" }
+                ]
+            },
+            {
+                name: "2.5 Seer Dashboard",
+                status: "progress",
+                components: [
+                    { name: "Dashboard layout", status: "complete" },
+                    { name: "Node navigation", status: "complete" },
+                    { name: "Player status", status: "progress" },
+                    { name: "Combat management", status: "pending" }
+                ]
+            },
+            {
+                name: "3.1 Player Experience",
+                status: "progress",
+                components: [
+                    { name: "Onboarding tutorial", status: "progress" },
+                    { name: "Session browser", status: "pending" },
+                    { name: "Sound effects", status: "pending" },
+                    { name: "Mobile optimization", status: "pending" }
+                ]
+            }
+        ];
+        
+        const prds = [
+            { num: "01", name: "Dice System", status: "implemented" },
+            { num: "02", name: "Character System", status: "implemented" },
+            { num: "03", name: "Combat System", status: "progress" },
+            { num: "04", name: "Session Management", status: "progress" },
+            { num: "05", name: "Seer Dashboard", status: "progress" },
+            { num: "06", name: "AI Seer Assistant", status: "ready" },
+            { num: "07", name: "Digital Dice UI", status: "ready" },
+            { num: "08", name: "Canvas System", status: "implemented" },
+            { num: "09", name: "Node System", status: "implemented" },
+            { num: "10", name: "Connection Engine", status: "implemented" },
+            { num: "11", name: "Validation System", status: "implemented" },
+            { num: "12", name: "Publishing System", status: "ready" },
+            { num: "13", name: "Character Creation", status: "implemented" },
+            { num: "14", name: "Session Browser", status: "ready" },
+            { num: "15", name: "Onboarding Tutorial", status: "progress" },
+            { num: "16", name: "Backend API", status: "progress" },
+            { num: "17", name: "Database Schema", status: "implemented" },
+            { num: "18", name: "Authentication", status: "progress" },
+            { num: "19", name: "Design System", status: "ready" },
+            { num: "20", name: "Content Management", status: "ready" },
+            { num: "21", name: "Compendium & Rules", status: "ready" },
+            { num: "22", name: "Social System", status: "ready" },
+            { num: "23", name: "Campaign Management", status: "ready" },
+            { num: "24", name: "Audio & Ambiance", status: "ready" },
+            { num: "25", name: "Homebrew System", status: "ready" },
+            { num: "26", name: "Marketplace", status: "ready" },
+            { num: "27", name: "Mobile App", status: "ready" },
+            { num: "28", name: "Integrations", status: "ready" },
+            { num: "29", name: "Maps & VTT Lite", status: "ready" },
+            { num: "30", name: "Voice & Video", status: "ready" }
+        ];
+        
+        const alerts = [
+            { type: "risk", title: "Test coverage", desc: "Unit and E2E tests need expansion before launch", impact: "High" },
+            { type: "risk", title: "Real-time latency", desc: "Need to verify sync under load", impact: "Medium" },
+            { type: "risk", title: "Mobile performance", desc: "Canvas performance on older devices TBD", impact: "Medium" },
+            { type: "risk", title: "Integration testing", desc: "Full system integration tests needed", impact: "High" }
+        ];
+        
+        // Render milestones
+        const milestonesEl = document.getElementById('milestones');
+        milestones.forEach(m => {
+            const statusClass = m.status === 'complete' ? 'status-complete' : 
+                               m.status === 'progress' ? 'status-progress' : 'status-pending';
+            const statusText = m.status === 'complete' ? 'Complete' :
+                              m.status === 'progress' ? 'In Progress' : 'Not Started';
+            
+            milestonesEl.innerHTML += `
+                <div class="milestone">
+                    <div class="milestone-header">
+                        <span class="milestone-name">${m.name}</span>
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                    <div class="component-list">
+                        ${m.components.map(c => `
+                            <div class="component">
+                                <div class="component-icon ${c.status}">${c.status === 'complete' ? '✓' : c.status === 'progress' ? '◐' : '○'}</div>
+                                <span>${c.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Render PRDs
+        const prdsEl = document.getElementById('prds');
+        prds.forEach(p => {
+            const statusText = p.status === 'implemented' ? 'Implemented' :
+                              p.status === 'ready' ? 'PRD Ready' :
+                              p.status === 'progress' ? 'In Progress' : 'Pending';
+            
+            prdsEl.innerHTML += `
+                <div class="prd-card">
+                    <div class="prd-number">PRD-${p.num}</div>
+                    <div class="prd-name">${p.name}</div>
+                    <div class="prd-status">
+                        <div class="prd-dot ${p.status}"></div>
+                        <span>${statusText}</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Render alerts
+        const alertsEl = document.getElementById('alerts');
+        alerts.forEach(a => {
+            alertsEl.innerHTML += `
+                <div class="alert-card ${a.type}">
+                    <div class="alert-title">${a.type === 'blocker' ? '🚫' : '⚠️'} ${a.title}</div>
+                    <div class="alert-desc">${a.desc}</div>
+                    <div class="alert-meta">
+                        <span>Impact: ${a.impact}</span>
+                        <span>Type: ${a.type.charAt(0).toUpperCase() + a.type.slice(1)}</span>
+                    </div>
+                </div>
+            `;
+        });
+        
+        // Issues data - Supabase lint warnings (85 total: 14 Security, 71 Performance)
+        // RESOLVED 2026-01-29: Applied migrations 007-010
+        const issues = [
+            // Security Issues (14) - Mutable search_path on functions - RESOLVED via migration 007
+            { id: 1, text: "All functions now have SET search_path = ''", category: "Security", status: "resolved", note: "Fixed via migration 007_fix_search_paths.sql" },
+            // Performance Issues (71) - Missing indexes - RESOLVED via migration 008
+            { id: 2, text: "Performance indexes added on all tables", category: "Performance", status: "resolved", note: "Fixed via migration 008_add_performance_indexes.sql" },
+            // RLS Performance - RESOLVED via migration 009
+            { id: 3, text: "RLS policies now use (select auth.uid()) pattern", category: "Performance", status: "resolved", note: "Fixed via migration 009_fix_rls_performance.sql" },
+            // RLS Recursion - RESOLVED via migration 010
+            { id: 4, text: "Circular RLS recursion between sessions/session_players", category: "Critical", status: "resolved", note: "Fixed via migration 010_fix_rls_recursion.sql - Used SECURITY DEFINER functions" }
+        ];
+        
+        // Update issue counts
+        const resolvedCount = issues.filter(i => i.status === 'resolved').length;
+        const pendingCount = issues.filter(i => i.status === 'pending').length;
+        const blockedCount = issues.filter(i => i.status === 'blocked').length;
+        
+        document.querySelector('.issue-count.resolved').textContent = resolvedCount;
+        document.querySelector('.issue-count.pending').textContent = pendingCount;
+        document.querySelector('.issue-count.blocked').textContent = blockedCount;
+        
+        // Render issues
+        const issuesEl = document.getElementById('issues');
+        issues.forEach(issue => {
+            const icon = issue.status === 'resolved' ? '✅' : issue.status === 'blocked' ? '🚫' : '⏳';
+            issuesEl.innerHTML += `
+                <div class="issue-item">
+                    <div class="issue-info">
+                        <span class="issue-icon">${icon}</span>
+                        <span class="issue-text">${issue.text}</span>
+                        <span class="issue-category">${issue.category}</span>
+                    </div>
+                    <span class="issue-status ${issue.status}">${issue.status.charAt(0).toUpperCase() + issue.status.slice(1)}</span>
+                </div>
+            `;
+        });
+        
+        // Update timestamp
+        document.getElementById('updated').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>

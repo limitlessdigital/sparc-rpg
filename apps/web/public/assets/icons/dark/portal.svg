@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="white">
+  <!-- Portal / Gateway for Play Anywhere -->
+  <!-- Outer arch -->
+  <path d="M8 56V28C8 14 18 4 32 4C46 4 56 14 56 28V56H48V28C48 18 41 12 32 12C23 12 16 18 16 28V56H8Z"/>
+  <!-- Inner glow/swirl -->
+  <ellipse cx="32" cy="36" rx="12" ry="16" fill="none" stroke="white" stroke-width="2"/>
+  <path d="M28 28C28 28 32 32 36 28C40 24 36 36 32 40C28 44 24 36 28 32C32 28 28 28 28 28Z" fill="white" opacity="0.6"/>
+  <!-- Runes on pillars -->
+  <rect x="10" y="32" width="4" height="4"/>
+  <rect x="10" y="40" width="4" height="4"/>
+  <rect x="10" y="48" width="4" height="4"/>
+  <rect x="50" y="32" width="4" height="4"/>
+  <rect x="50" y="40" width="4" height="4"/>
+  <rect x="50" y="48" width="4" height="4"/>
+  <!-- Keystone -->
+  <polygon points="32,4 26,10 38,10"/>
+</svg>

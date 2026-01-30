@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="white">
+  <!-- Quill + Scroll for Adventure Forge -->
+  <!-- Scroll -->
+  <path d="M12 16C12 12 16 8 20 8H48C52 8 52 12 52 16V48C52 52 48 56 44 56H16C12 56 12 52 12 48V16Z"/>
+  <ellipse cx="12" cy="16" rx="4" ry="8" fill="white"/>
+  <ellipse cx="12" cy="48" rx="4" ry="8" fill="white"/>
+  <!-- Scroll lines -->
+  <rect x="20" y="20" width="24" height="2" fill="black"/>
+  <rect x="20" y="28" width="20" height="2" fill="black"/>
+  <rect x="20" y="36" width="24" height="2" fill="black"/>
+  <!-- Quill -->
+  <path d="M44 4L58 18L54 22L40 8L44 4Z"/>
+  <path d="M40 8L54 22L36 40L32 44L34 38L40 8Z"/>
+  <path d="M32 44L30 52L34 38L32 44Z"/>
+</svg>

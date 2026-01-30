@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="white">
+  <!-- Hero with sword and shield -->
+  <!-- Head -->
+  <circle cx="32" cy="14" r="8"/>
+  <!-- Body -->
+  <path d="M24 24h16l4 20H20l4-20Z"/>
+  <!-- Arms -->
+  <rect x="12" y="26" width="8" height="4" rx="2"/>
+  <rect x="44" y="26" width="8" height="4" rx="2"/>
+  <!-- Shield (left) -->
+  <path d="M8 32v16c0 4 6 8 10 8V32H8Z"/>
+  <!-- Sword (right) -->
+  <rect x="52" y="20" width="4" height="28"/>
+  <rect x="48" y="46" width="12" height="4"/>
+  <polygon points="54,16 50,20 58,20"/>
+  <!-- Legs -->
+  <rect x="24" y="44" width="6" height="16"/>
+  <rect x="34" y="44" width="6" height="16"/>
+</svg>

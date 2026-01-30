@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Friz Quadrata - Primary Font */
+@font-face {
+  font-family: 'Friz Quadrata';
+  src: url('/fonts/Friz Quadrata Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Friz Quadrata';
+  src: url('/fonts/Friz Quadrata Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Friz Quadrata';
+  src: url('/fonts/Friz Quadrata Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Friz Quadrata';
+  src: url('/fonts/Friz Quadrata Std Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    /* CSS Variables for design tokens */
+    --background: 12 12 12;
+    --foreground: 255 255 255;
+    
+    /* Bronze primary */
+    --primary: 204 122 0;
+    --primary-foreground: 255 255 255;
+    
+    /* Surface colors */
+    --surface: 30 30 30;
+    --surface-elevated: 42 42 42;
+    --surface-divider: 58 58 58;
+    
+    /* Text colors */
+    --text-primary: 255 255 255;
+    --text-secondary: 179 179 179;
+    --text-muted: 128 128 128;
+  }
+
+  body {
+    @apply bg-surface-base text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Focus ring styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-bronze ring-offset-2 ring-offset-surface-base;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Scrollbar styling for dark theme */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

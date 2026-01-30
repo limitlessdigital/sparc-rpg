@@ -1,0 +1,40 @@
+{
+  "name": "@sparc/integrations",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./discord": "./src/discord/index.ts",
+    "./twitch": "./src/twitch/index.ts",
+    "./webhooks": "./src/webhooks/index.ts",
+    "./oauth": "./src/oauth/index.ts",
+    "./calendar": "./src/calendar/index.ts",
+    "./overlay": "./src/overlay/index.ts",
+    "./api": "./src/public-api/index.ts",
+    "./marketplace": "./src/marketplace/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "ical-generator": "^7.1.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@sparc/config-eslint": "workspace:*",
+    "@sparc/config-typescript": "workspace:*",
+    "@sparc/db": "workspace:*",
+    "@sparc/game-logic": "workspace:*",
+    "@types/node": "^20.0.0",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0"
+  }
+}

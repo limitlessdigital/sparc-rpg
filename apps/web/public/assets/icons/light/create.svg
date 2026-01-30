@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="black">
+  <!-- Hammer + Anvil for Character Creation -->
+  <!-- Anvil -->
+  <path d="M8 44H56L52 56H12L8 44Z"/>
+  <path d="M16 36H48V44H16V36Z"/>
+  <path d="M20 32H44C44 32 48 32 48 36H16C16 32 20 32 20 32Z"/>
+  <!-- Hammer -->
+  <rect x="28" y="8" width="8" height="20" rx="2"/>
+  <path d="M20 4H44V14H20V4Z" rx="2"/>
+  <!-- Sparks -->
+  <circle cx="12" cy="30" r="2"/>
+  <circle cx="52" cy="28" r="2"/>
+  <circle cx="18" cy="24" r="1.5"/>
+  <circle cx="46" cy="22" r="1.5"/>
+</svg>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎭 THIEF CHASE - Live Play</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Georgia', serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e8e8e8;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #d4a574;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    .subtitle {
+      text-align: center;
+      color: #888;
+      margin-bottom: 20px;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    .player-panel {
+      background: rgba(0,0,0,0.4);
+      border-radius: 15px;
+      padding: 20px;
+      border: 2px solid #333;
+    }
+    .player-panel.kael { border-color: #4a7c59; }
+    .player-panel.thora { border-color: #8b4513; }
+    .player-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #444;
+    }
+    .player-icon {
+      font-size: 3rem;
+    }
+    .player-info h2 {
+      color: #d4a574;
+      margin-bottom: 5px;
+    }
+    .player-info .class {
+      color: #888;
+      font-style: italic;
+    }
+    .stats {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.1);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+    .stat.primary { background: #d4a574; color: #1a1a2e; font-weight: bold; }
+    .hp-bar {
+      margin-top: 10px;
+      background: #333;
+      border-radius: 10px;
+      height: 20px;
+      overflow: hidden;
+    }
+    .hp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #e74c3c, #c0392b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    .hp-fill.kael { width: 100%; background: linear-gradient(90deg, #27ae60, #2ecc71); }
+    .hp-fill.thora { width: 100%; background: linear-gradient(90deg, #e74c3c, #c0392b); }
+    .narrative {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      border-left: 4px solid #d4a574;
+    }
+    .narrative-label {
+      color: #d4a574;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .response {
+      background: rgba(100,255,100,0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin: 15px 0;
+      border-left: 4px solid #4a7c59;
+    }
+    .response.thora { border-left-color: #8b4513; background: rgba(255,150,100,0.1); }
+    .response-label {
+      color: #4a7c59;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .response-label.thora { color: #8b4513; }
+    .choice {
+      background: #d4a574;
+      color: #1a1a2e;
+      padding: 8px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .seer-panel {
+      grid-column: 1 / -1;
+      background: rgba(212, 165, 116, 0.1);
+      border: 2px solid #d4a574;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+    }
+    .seer-panel h3 {
+      color: #d4a574;
+      margin-bottom: 10px;
+    }
+    .scene-title {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .action-text {
+      font-style: italic;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎭 THIEF CHASE</h1>
+  <p class="subtitle">Live Adventure - City of Therofall</p>
+  
+  <div class="seer-panel">
+    <h3>🔮 SEER (J) - Current Scene</h3>
+    <p class="scene-title">THE MIDDAY TAVERN - Meeting Ernesh</p>
+    <p class="action-text">Both players are questioning the mysterious one-eyed seer about the bandits...</p>
+  </div>
+  
+  <div class="container">
+    <!-- KAEL PANEL -->
+    <div class="player-panel kael">
+      <div class="player-header">
+        <div class="player-icon">🏹</div>
+        <div class="player-info">
+          <h2>Kael the Ranger</h2>
+          <div class="class">Level 1 Scout</div>
+          <div class="stats">
+            <span class="stat">M2</span>
+            <span class="stat primary">G4</span>
+            <span class="stat">W2</span>
+            <span class="stat">H1</span>
+          </div>
+        </div>
+      </div>
+      <div class="hp-bar">
+        <div class="hp-fill kael">❤️ 12/12 HP</div>
+      </div>
+      
+      <div class="narrative">
+        <div class="narrative-label">📜 Seer's Narration</div>
+        <p>Ernesh's lips curl into a knowing smile. His shut eye flickers — you're SURE you saw a hint of <strong>purple glow</strong> behind that eyelid.</p>
+        <p style="margin-top:10px">"If such scoundrels are hiding in Therofall, I know just where to look. <strong>Southatch.</strong> The slums."</p>
+      </div>
+      
+      <div class="response">
+        <div class="response-label">🏹 Kael's Response</div>
+        <p><em>*doesn't move — eyes locked on that shut eyelid*</em></p>
+        <p style="margin-top:10px">"You're generous with information, Ernesh. Strangers who help too freely usually want something in return."</p>
+        <p style="margin-top:10px"><em>*taps the table*</em> "That eye of yours. It sees more than tavern gossip, doesn't it? What aren't you telling me about Southatch?"</p>
+        <div class="choice">CHOSE: Press for more details</div>
+      </div>
+    </div>
+    
+    <!-- THORA PANEL -->
+    <div class="player-panel thora">
+      <div class="player-header">
+        <div class="player-icon">⚔️</div>
+        <div class="player-info">
+          <h2>Thora Ironheart</h2>
+          <div class="class">Level 1 Champion</div>
+          <div class="stats">
+            <span class="stat primary">M4</span>
+            <span class="stat">G2</span>
+            <span class="stat">W1</span>
+            <span class="stat">H2</span>
+          </div>
+        </div>
+      </div>
+      <div class="hp-bar">
+        <div class="hp-fill thora">❤️ 14/14 HP</div>
+      </div>
+      
+      <div class="narrative">
+        <div class="narrative-label">📜 Seer's Narration</div>
+        <p>Ernesh chuckles at your offer. "A warrior who buys drinks? I like you already, Thora Ironheart."</p>
+        <p style="margin-top:10px">"<strong>Southatch.</strong> The slums. A seedy underbelly where the guards don't go. That's where your rats will be hiding."</p>
+      </div>
+      
+      <div class="response thora">
+        <div class="response-label thora">⚔️ Thora's Response</div>
+        <p><em>*slides an ale to Ernesh*</em></p>
+        <p style="margin-top:10px">"I made you a promise, Ernesh, and <strong>Thora Ironheart keeps her word.</strong>"</p>
+        <p style="margin-top:10px">"Tell me more. How many ways in and out? Any names I should know?"</p>
+        <p style="margin-top:10px"><em>*glances at Kael*</em> "Sit down, ranger. You're making me nervous with all that lurking."</p>
+        <div class="choice">CHOSE: Buy drink & press for details</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Auto-refresh every 10 seconds
+    // setTimeout(() => location.reload(), 10000);
+  </script>
+</body>
+</html>
