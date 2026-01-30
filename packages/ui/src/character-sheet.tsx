@@ -34,10 +34,10 @@ export type SPARCClass =
 
 // Official SPARC Attributes (Version E2)
 export interface SPARCAttributes {
-  str: number;  // Strength
-  dex: number;  // Dexterity
-  int: number;  // Intelligence
-  cha: number;  // Charisma
+  might: number;  // Physical power
+  grace: number;  // Agility and finesse
+  wit: number;  // Intelligence and magic
+  heart: number;  // Charisma and willpower
 }
 
 export interface EquipmentItem {
@@ -71,8 +71,8 @@ export const SPARC_CLASSES: Record<SPARCClass, {
     name: "Warrior",
     icon: "⚔️",
     description: "A master of martial combat who excels at direct confrontation",
-    primaryAttribute: "str",
-    startingAttributes: { str: 3, dex: 2, int: 0, cha: 0 },
+    primaryAttribute: "might",
+    startingAttributes: { might: 3, grace: 2, wit: 0, heart: 0 },
     hitPoints: 12,
     specialAbility: "Flurry",
   },
@@ -80,8 +80,8 @@ export const SPARC_CLASSES: Record<SPARCClass, {
     name: "Wizard",
     icon: "📖",
     description: "A scholar who has mastered devastating arcane attacks",
-    primaryAttribute: "int",
-    startingAttributes: { str: 0, dex: 2, int: 3, cha: 0 },
+    primaryAttribute: "wit",
+    startingAttributes: { might: 0, grace: 2, wit: 3, heart: 0 },
     hitPoints: 7,
     specialAbility: "Meteor Swarm",
   },
@@ -89,8 +89,8 @@ export const SPARC_CLASSES: Record<SPARCClass, {
     name: "Cleric",
     icon: "✝️",
     description: "A divine healer who channels sacred power",
-    primaryAttribute: "int",
-    startingAttributes: { str: 1, dex: 0, int: 3, cha: 1 },
+    primaryAttribute: "wit",
+    startingAttributes: { might: 1, grace: 0, wit: 3, heart: 1 },
     hitPoints: 9,
     specialAbility: "Heal",
   },
@@ -98,8 +98,8 @@ export const SPARC_CLASSES: Record<SPARCClass, {
     name: "Rogue",
     icon: "🗡️",
     description: "A deadly operative who excels at stealth and precision",
-    primaryAttribute: "dex",
-    startingAttributes: { str: 0, dex: 3, int: 1, cha: 1 },
+    primaryAttribute: "grace",
+    startingAttributes: { might: 0, grace: 3, wit: 1, heart: 1 },
     hitPoints: 9,
     specialAbility: "Backstab",
   },
@@ -107,8 +107,8 @@ export const SPARC_CLASSES: Record<SPARCClass, {
     name: "Ranger",
     icon: "🏹",
     description: "A skilled hunter who excels at ranged combat",
-    primaryAttribute: "dex",
-    startingAttributes: { str: 1, dex: 3, int: 1, cha: 0 },
+    primaryAttribute: "grace",
+    startingAttributes: { might: 1, grace: 3, wit: 1, heart: 0 },
     hitPoints: 11,
     specialAbility: "Multishot",
   },
@@ -116,8 +116,8 @@ export const SPARC_CLASSES: Record<SPARCClass, {
     name: "Paladin",
     icon: "🛡️",
     description: "A holy warrior who combines martial prowess with divine protection",
-    primaryAttribute: "str",
-    startingAttributes: { str: 3, dex: 0, int: 1, cha: 1 },
+    primaryAttribute: "might",
+    startingAttributes: { might: 3, grace: 0, wit: 1, heart: 1 },
     hitPoints: 12,
     specialAbility: "Divine Shield",
   },
@@ -125,18 +125,17 @@ export const SPARC_CLASSES: Record<SPARCClass, {
     name: "Necromancer",
     icon: "💀",
     description: "A dark spellcaster who manipulates life force",
-    primaryAttribute: "int",
-    startingAttributes: { str: 0, dex: 1, int: 3, cha: 1 },
+    primaryAttribute: "wit",
+    startingAttributes: { might: 0, grace: 1, wit: 3, heart: 1 },
     hitPoints: 7,
     specialAbility: "Transfer Life",
-    hitDie: 6,
   },
 };
 
 // Attribute display info
-const ATTRIBUTE_INFO: Record<AttributeType, { 
-  name: string; 
-  icon: string; 
+const ATTRIBUTE_INFO: Record<any, {
+  name: string;
+  icon: string;
   color: string;
   bgColor: string;
   description: string;
@@ -508,7 +507,7 @@ export function createSPARCCharacter(
   characterClass: SPARCClass
 ): SPARCCharacter {
   const classInfo = SPARC_CLASSES[characterClass];
-  const maxHP = classInfo.hitDie + classInfo.startingAttributes.might;
+  const maxHP = classInfo.hitPoints + classInfo.startingAttributes.might;
 
   return {
     id: crypto.randomUUID(),

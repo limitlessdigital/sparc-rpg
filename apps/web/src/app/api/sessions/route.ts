@@ -3,7 +3,7 @@ import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 // Session Management API
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const supabase = await createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -12,8 +12,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const _status = searchParams.get("status"); // active, pending, completed (TODO: use for filtering)
+    // TODO: Add filtering by status
+    // const { searchParams } = new URL(request.url);
+    // const status = searchParams.get("status"); // active, pending, completed
 
     // TODO: Query sessions from database
     const sessions: unknown[] = [];

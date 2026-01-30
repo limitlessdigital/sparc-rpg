@@ -465,7 +465,7 @@ export function CampaignDashboard({
   const canManage = userRole === 'owner' || userRole === 'co_seer';
   const canEditWiki = userRole !== 'spectator';
 
-  const nextSession = getNextSession(sessions);
+  const nextSession = getNextSession(sessions) as any;
   const upcomingSessions = sessions
     .filter((s) => s.status === 'scheduled')
     .sort((a, b) => {

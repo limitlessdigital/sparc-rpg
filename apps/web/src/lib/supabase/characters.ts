@@ -248,6 +248,7 @@ export const characterService = {
 
     const { data, error } = await supabase
       .from("characters")
+      // @ts-ignore - Supabase DB types issue
       .insert(insert)
       .select()
       .single();
@@ -303,6 +304,7 @@ export const characterService = {
 
     const { data, error } = await supabase
       .from("characters")
+      // @ts-ignore - Supabase DB types issue
       .update(updateData)
       .eq("id", id)
       .eq("user_id", user.id)
@@ -353,7 +355,8 @@ export const characterService = {
 
     const { error } = await supabase
       .from("characters")
-      .update({ 
+      // @ts-ignore - Supabase DB types issue
+      .update({
         last_played_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       })

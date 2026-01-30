@@ -17,10 +17,7 @@ import type {
 } from './types';
 import {
   getSessionStatusLabel,
-  getSessionStatusColor,
   getSessionStatusIcon,
-  getRsvpStatusIcon,
-  getRsvpStatusColor,
   getKeyMomentTypeIcon,
   formatDuration,
   formatScheduledTime,
