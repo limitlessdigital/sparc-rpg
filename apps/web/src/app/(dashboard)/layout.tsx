@@ -7,6 +7,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn, Button, Avatar } from "@sparc/ui";
 import { ProtectedRoute, useAuth } from "@/lib/auth-context";
+import { RoleSwitcher } from "@/components/role-switcher";
 
 // Icon component for SVG icons
 function NavIcon({ name, className }: { name: string; className?: string }) {
@@ -20,6 +21,7 @@ function NavIcon({ name, className }: { name: string; className?: string }) {
 }
 
 // Navigation items - routes are at root level (not under /dashboard)
+// role: undefined = show for all, "player" = player only, "seer" = seer only
 const navItems = [
   { href: "/", label: "Home", icon: "home" },
   { href: "/characters", label: "Characters", icon: "characters" },
@@ -27,7 +29,7 @@ const navItems = [
   { href: "/adventures", label: "Adventures", icon: "adventures" },
   { href: "/homebrew", label: "Homebrew", icon: "homebrew" },
   { href: "/social", label: "Social", icon: "portal" },
-  { href: "/seer", label: "Seer Dashboard", icon: "adventures" },
+  { href: "/seer", label: "Seer Dashboard", icon: "adventures", role: "seer" as const },
 ];
 
 function DashboardSidebar() {
@@ -59,7 +61,13 @@ function DashboardSidebar() {
 
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-1">
-        {navItems.map((item) => (
+        {navItems
+          .filter((item) => {
+            // Show item if no role restriction, or if user's active role matches
+            if (!item.role) return true;
+            return user?.activeRole === item.role;
+          })
+          .map((item) => (
           <Link
             key={item.href}
             href={item.href}
@@ -78,7 +86,7 @@ function DashboardSidebar() {
 
       {/* User section */}
       <div className="p-4 border-t border-surface-divider">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3 mb-3">
           <Avatar 
             src={user?.avatarUrl} 
             alt={user?.username || "User"} 
@@ -89,6 +97,10 @@ function DashboardSidebar() {
             <div className="text-sm font-medium truncate">{user?.username}</div>
             <div className="text-xs text-muted-foreground truncate">{user?.email}</div>
           </div>
+        </div>
+        {/* Role Switcher */}
+        <div className="mb-3">
+          <RoleSwitcher variant="compact" className="justify-center w-full" />
         </div>
         <Button 
           variant="ghost" 

@@ -6,12 +6,16 @@ import { getSupabaseClient } from "./supabase";
 import type { User as SupabaseUser, Session } from "@supabase/supabase-js";
 
 // Types
+export type UserRole = "player" | "seer";
+
 export interface User {
   id: string;
   email: string;
   username: string;
   avatarUrl?: string | null;
   createdAt: Date;
+  activeRole: UserRole;
+  isSeerEnabled: boolean;
 }
 
 export interface AuthState {
@@ -24,6 +28,7 @@ export interface AuthContextValue extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  setActiveRole: (role: UserRole) => Promise<void>;
   supabaseUser: SupabaseUser | null;
   session: Session | null;
 }
@@ -41,6 +46,8 @@ function transformUser(supabaseUser: SupabaseUser | null): User | null {
               "User",
     avatarUrl: supabaseUser.user_metadata?.avatar_url || null,
     createdAt: new Date(supabaseUser.created_at),
+    activeRole: (supabaseUser.user_metadata?.active_role as UserRole) || "player",
+    isSeerEnabled: supabaseUser.user_metadata?.is_seer_enabled ?? true, // Default to true for now
   };
 }
 
@@ -218,6 +225,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const setActiveRole = async (role: UserRole) => {
+    if (!supabaseUser) return;
+    
+    try {
+      // Update user metadata in Supabase
+      const { data, error } = await supabase.auth.updateUser({
+        data: { active_role: role }
+      });
+      
+      if (error) throw error;
+      
+      // Update local state
+      if (data.user) {
+        setSupabaseUser(data.user);
+        setState(prev => ({
+          ...prev,
+          user: transformUser(data.user),
+        }));
+      }
+    } catch (error) {
+      console.error("Failed to switch role:", error);
+      throw error;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -225,6 +257,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         login,
         register,
         logout,
+        setActiveRole,
         supabaseUser,
         session,
       }}
