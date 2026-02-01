@@ -1010,3 +1010,6 @@ export type {
   GameplayState,
   GameplayMode,
 } from "./session-gameplay";
+
+// 3D Dice
+export { Dice3D, DicePool3D, DiceRoller3D } from "./dice";
