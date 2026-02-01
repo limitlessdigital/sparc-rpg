@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPARC 3D Dice Roller</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a1628;
+            color: #f0f0f0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #d4a574;
+        }
+        #dice-container {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            background: #1a2a3a;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .roll-btn {
+            background: #d4a574;
+            color: #0a1628;
+            font-weight: bold;
+        }
+        .roll-btn:hover {
+            background: #e5b685;
+            transform: scale(1.05);
+        }
+        .dice-btn {
+            background: #2a3a4a;
+            color: #f0f0f0;
+        }
+        .dice-btn:hover {
+            background: #3a4a5a;
+        }
+        .dice-btn.active {
+            background: #d4a574;
+            color: #0a1628;
+        }
+        #results {
+            font-size: 24px;
+            text-align: center;
+            min-height: 60px;
+        }
+        .success { color: #4ade80; }
+        .total { color: #d4a574; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>🎲 SPARC 3D Dice Roller</h1>
+    
+    <div id="dice-container"></div>
+    
+    <div class="controls">
+        <button class="dice-btn" onclick="setDice('1d6')">1d6</button>
+        <button class="dice-btn" onclick="setDice('2d6')">2d6</button>
+        <button class="dice-btn active" onclick="setDice('3d6')">3d6</button>
+        <button class="dice-btn" onclick="setDice('4d6')">4d6</button>
+        <button class="dice-btn" onclick="setDice('1d20')">1d20</button>
+    </div>
+    
+    <button class="roll-btn" onclick="rollDice()">🎲 Roll Dice!</button>
+    
+    <div id="results"></div>
+
+    <script src="/dice-lib/three.min.js"></script>
+    <script src="/dice-lib/cannon.min.js"></script>
+    <script src="/dice-lib/teal.js"></script>
+    <script src="/dice-lib/dice.js"></script>
+    <script>
+        let box;
+        let currentDice = '3d6';
+        
+        window.onload = function() {
+            const container = document.getElementById('dice-container');
+            box = new DICE.dice_box(container);
+            box.setDice(currentDice);
+        };
+        
+        function setDice(notation) {
+            currentDice = notation;
+            box.setDice(notation);
+            
+            // Update button states
+            document.querySelectorAll('.dice-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === notation) btn.classList.add('active');
+            });
+        }
+        
+        function rollDice() {
+            box.start_throw(
+                function beforeRoll(notation) {
+                    document.getElementById('results').innerHTML = '<em>Rolling...</em>';
+                    return null; // null = random results
+                },
+                function afterRoll(notation) {
+                    const results = notation.result;
+                    const total = notation.resultTotal;
+                    
+                    // For d6, count successes (5-6)
+                    let html = '';
+                    if (currentDice.includes('d6')) {
+                        const successes = results.filter(r => r >= 5).length;
+                        html = `<div class="success">${successes} ${successes === 1 ? 'Success' : 'Successes'}!</div>`;
+                    }
+                    html += `<div class="total">Results: [${results.join(', ')}] = ${total}</div>`;
+                    
+                    document.getElementById('results').innerHTML = html;
+                }
+            );
+        }
+    </script>
+</body>
+</html>
